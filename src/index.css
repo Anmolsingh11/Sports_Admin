@@ -1,13 +1,124 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: #EEEEEE44 !important;
+}
+/* 
+.sticky-header {
+  position: fixed !important;
+  width: 100%;
+  top: 0;
+  z-index: 100000;
+} */
+
+.center-container {
+  height: 100vh;
+  position: relative;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.center {
+  margin: 0;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.box-shadow {
+  box-shadow: 0px 2px 4px 2px #eee;
+}
+
+.header {
+  background-color: #D6D6D6 !important;
+  height: 70px !important;
+}
+
+.card-border {
+  box-shadow: 0px 2px 4px 2px #eee;
+  border: 1px solid #eee !important;
+  border-radius: 20px !important;
+}
+
+.card {
+  border: 1px solid #eee !important;
+}
+
+.font-weight-500 {
+  font-weight: 500;
+}
+
+.sticky-footer {
+  position: fixed !important;
+  width: 100%;
+  bottom: 0;
+}
+
+/* CSS For Sidebar */
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #eee;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidebar a {
+  padding: 8px 8px 16px 8px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #000;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  color: #00000066;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 36px;
+}
+
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.pt-20{
+  padding-top: 20%;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidebar {
+    padding-top: 15px;
+  }
+
+  .sidebar a {
+    font-size: 18px;
+  }
 }
