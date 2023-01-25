@@ -5,6 +5,7 @@ import Pusher from "pusher-js";
 import { createAndUpdateScore, getEventByID, getExtrasForTeam, updateEventByID } from "../../../API/Events";
 import { useNavigate, useParams } from "react-router-dom";
 import { getPlayerByID } from "../../../API/Player";
+import { toast } from "react-toastify";
 
 const EventDetail = () => {
   const [loading, setLoading] = useState(false);
@@ -19,6 +20,7 @@ const EventDetail = () => {
   const [teamBExtras, setTeamBExtras] = useState(0);
   const [selectedTeam, setSeletedTeam] = useState("");
   const [winner, setWinner] = useState("");
+  const [playermarkedforOut, setPlayerMarkedForOut] = useState("");
 
   const { id } = useParams();
 
@@ -69,6 +71,11 @@ const EventDetail = () => {
   }, []);
 
   const handleAddScore = (index) => {
+    //update event 
+    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+
+    }).catch((err) => console.log(err));
+
     const updatedPlayers = [...teamA];
     let score = updatedPlayers[index].score++;
     setTeamA(updatedPlayers);
@@ -89,6 +96,11 @@ const EventDetail = () => {
   };
 
   const handleReduceScore = (index) => {
+
+    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+
+    }).catch((err) => console.log(err));
+
     const updatedPlayers = [...teamA];
     if (updatedPlayers[index].score >= 1) {
       let score = updatedPlayers[index].score--;
@@ -112,6 +124,11 @@ const EventDetail = () => {
   };
 
   const handleAddScoreTeamB = (index) => {
+
+    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+
+    }).catch((err) => console.log(err));
+
     const updatedPlayers = [...teamB];
     let score = updatedPlayers[index].score++;
     setTeamB(updatedPlayers);
@@ -134,6 +151,11 @@ const EventDetail = () => {
   };
 
   const handleReduceScoreTeamB = (index) => {
+
+    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+
+    }).catch((err) => console.log(err));
+
     const updatedPlayers = [...teamB];
     if (updatedPlayers[index].score >= 1) {
       let score = updatedPlayers[index].score--;
@@ -158,6 +180,11 @@ const EventDetail = () => {
   };
 
   const handleAddScoreMultiPlayer = (index) => {
+
+    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+
+    }).catch((err) => console.log(err));
+
     const updatedPlayers = [...players];
     let score = updatedPlayers[index].score++;
     setPlayers(updatedPlayers);
@@ -180,6 +207,11 @@ const EventDetail = () => {
   };
 
   const handleReduceScoreMultiPlayer = (index) => {
+
+    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+
+    }).catch((err) => console.log(err));
+
     const updatedPlayers = [...players];
     if (updatedPlayers[index].score >= 1) {
       let score = updatedPlayers[index].score--;
@@ -204,6 +236,11 @@ const EventDetail = () => {
   };
 
   const handleReduceScorePlayerA = () => {
+
+    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+
+    }).catch((err) => console.log(err));
+
     const updatedPlayer = { ...playerA };
     if (updatedPlayer.score >= 1) {
       let score = updatedPlayer.score--;
@@ -229,6 +266,11 @@ const EventDetail = () => {
   };
 
   const handleAddScorePlayerA = () => {
+
+    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+
+    }).catch((err) => console.log(err));
+
     const updatedPlayer = { ...playerA };
     let score = updatedPlayer.score++;
     console.log("Here is updated player", updatedPlayer);
@@ -252,6 +294,12 @@ const EventDetail = () => {
   };
 
   const handleReduceScorePlayerB = () => {
+
+    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+
+    }).catch((err) => console.log(err));
+
+
     const updatedPlayer = { ...playerB };
     if (updatedPlayer.score >= 1) {
       let score = updatedPlayer.score--;
@@ -277,6 +325,11 @@ const EventDetail = () => {
   };
 
   const handleAddScorePlayerB = () => {
+
+    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+
+    }).catch((err) => console.log(err));
+
     const updatedPlayer = { ...playerB };
     let score = updatedPlayer.score++;
     console.log("Here is updated player", updatedPlayer);
@@ -312,29 +365,34 @@ const EventDetail = () => {
   }, []);
 
   const handleAddExtras = () => {
-    getExtrasForTeam({ eventId: eventDetail._id, teamId: selectedTeam }).then((res) => {
-      console.log(res);
-      if (selectedTeam === eventDetail.teamName[0]._id) {
-        console.log("yoo");
-        setTeamAExtras(teamAExtras + 1);
-      } else {
-        setTeamBExtras(teamBExtras + 1);
-      }
-      const reqBody = {
-        eventId: eventDetail._id,
-        extras: {
-          eventId: eventDetail._id,
-          teamId: selectedTeam,
-          count: teamAExtras + 1
-        }
-      }
-
-      createAndUpdateScore(reqBody).then((res) => {
+    if(selectedTeam === ""){
+      toast.warn("please select a team by adding some score");
+    }else{
+      getExtrasForTeam({ eventId: eventDetail._id, teamId: selectedTeam }).then((res) => {
         console.log(res);
-      }).catch((err) => {
-        console.log(err);
+        if (selectedTeam === eventDetail.teamName[0]._id) {
+          console.log("yoo");
+          setTeamAExtras(teamAExtras + 1);
+        } else {
+          setTeamBExtras(teamBExtras + 1);
+        }
+        const reqBody = {
+          eventId: eventDetail._id,
+          extras: {
+            eventId: eventDetail._id,
+            teamId: selectedTeam,
+            count: teamAExtras + 1
+          },
+          teamId: selectedTeam,
+        }
+  
+        createAndUpdateScore(reqBody).then((res) => {
+          console.log(res);
+        }).catch((err) => {
+          console.log(err);
+        })
       })
-    })
+    }
   }
 
   const navigate = useNavigate();
@@ -342,7 +400,7 @@ const EventDetail = () => {
   const handleCloseEvent = () => {
     console.log(JSON.parse(winner));
     let reqBody = {
-      _id: eventDetail._id,
+      eventId: eventDetail._id,
       status: "closed",
       winner: [JSON.parse(winner)]
     }
@@ -365,6 +423,20 @@ const EventDetail = () => {
         setWinner(eventDetail.teamName[0]);
       }
     }
+  }
+
+  const handleOut = () => {
+    const reqBody = {
+      eventId: eventDetail._id,
+      gameType: eventDetail.eventType,
+      playerId: JSON.parse(playermarkedforOut).playerID,
+      teamId: JSON.parse(playermarkedforOut).teamID,
+      isOut: true,
+    };
+
+    createAndUpdateScore(reqBody).then((res) => {
+      toast.success("Player has been out");
+    }).catch((err) => { console.log(err) });
   }
 
   return (
@@ -459,9 +531,9 @@ const EventDetail = () => {
                   <p className="mt-2">
                     Winner:{" "}
                     <span style={{ marginLeft: "35px" }}>
-                      {eventDetail.winner.length === 0
+                    {eventDetail.winner.length === 0
                         ? "TBA"
-                        : eventDetail.winner}
+                        : eventDetail.winner[0].name != undefined ? eventDetail.winner[0].name : eventDetail.winner[0].teamName}
                     </span>
                   </p>
                 </div>
@@ -726,9 +798,34 @@ const EventDetail = () => {
                           </button>
                         </div>
                         <div className="col-6">
-                          <button className="btn btn-danger w-100 mb-3">
+                          <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Mark as out
                           </button>
+
+                          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <select className="form-control" onChange={(e) => setPlayerMarkedForOut(e.target.value)}>
+                                    <option>Select Player</option>
+                                    {teamA.map((item, index) => (
+                                      <option key={index} value={JSON.stringify({ teamID: eventDetail.teamName[0]._id, playerID: item._id })}>{item.name}</option>
+                                    ))}
+                                    {teamB.map((item, index) => (
+                                      <option key={index} value={JSON.stringify({ teamID: eventDetail.teamName[1]._id, playerID: item._id })}>{item.name}</option>
+                                    ))}
+                                  </select>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-primary" onClick={handleOut} data-bs-dismiss="modal">Out Player</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
 
                         <div className="col-6">
@@ -746,7 +843,7 @@ const EventDetail = () => {
                                 <p>Select Winner</p>
                                 {eventDetail.eventType === "Multiplayer"
                                   ?
-                                  <select className="form-control" onChange={(e) => setWinner(JSON.stringify(e.target.value))}>
+                                  <select className="form-control" onChange={(e) => setWinner(e.target.value)}>
                                     {players.map((item, index) => (
                                       <option key={index} value={JSON.stringify(item)}>{item.name}</option>
                                     ))}
@@ -754,7 +851,7 @@ const EventDetail = () => {
                                   :
                                   eventDetail.eventType === "Player"
                                     ?
-                                    <select className="form-control" onChange={(e) => setWinner(JSON.stringify(e.target.value))}>
+                                    <select className="form-control" onChange={(e) => setWinner(e.target.value)}>
                                       <option value={JSON.stringify(playerA)}>{playerA.name}</option>
                                       <option value={JSON.stringify(playerB)}>{playerB.name}</option>
                                     </select>
@@ -762,7 +859,8 @@ const EventDetail = () => {
                                     eventDetail.eventType === "Team"
                                       ?
                                       <select className="form-control" onChange={(e) => setWinner(e.target.value)}>
-                                        <option value={JSON.stringify(eventDetail.teamName[0])} selected>{eventDetail.teamName[0].teamName}</option>
+                                        <option selected>Select Winner</option>
+                                        <option value={JSON.stringify(eventDetail.teamName[0])} >{eventDetail.teamName[0].teamName}</option>
                                         <option value={JSON.stringify(eventDetail.teamName[1])}>{eventDetail.teamName[1].teamName}</option>
                                       </select>
                                       :
@@ -770,7 +868,7 @@ const EventDetail = () => {
                                 }
                               </div>
                               <div className="modal-footer">
-                                <button type="button" className="btn btn-dark" onClick={handleCloseEvent}>Close Event</button>
+                                <button type="button" className="btn btn-dark" data-bs-dismiss="modal" onClick={handleCloseEvent}>Close Event</button>
                               </div>
                             </div>
                           </div>
