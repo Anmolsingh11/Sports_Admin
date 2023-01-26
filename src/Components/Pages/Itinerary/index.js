@@ -40,7 +40,7 @@ const Itinerary = () => {
                                                         <p>{itinerary.time}</p>
                                                     </div>
                                                     <div className="col-6">
-                                                        <p>{itinerary.EventDetail[0].eventName} <br /> {itinerary.venue}</p>
+                                                        <p>{itinerary.eventName} <br /> {itinerary.venue}</p>
                                                     </div>
                                                     <div className="col-2">
                                                         <span className="btn btn-dark" onClick={() => navigate(`/itinerary/update/${itinerary._id}`)}><i className="fa-solid fa-pen"></i></span>

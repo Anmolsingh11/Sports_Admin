@@ -1,10 +1,10 @@
 import Navbar from "../../Navbar";
 import Footer from "../../Footer";
 import { useEffect, useState } from "react";
-import { createItinerary } from "../../../API/Itinerary";
 import { toast } from "react-toastify";
 import { sports } from "../../../Assets/Data/sports";
 import { getAllTeams } from "../../../API/Team";
+import { addLeaderboard } from "../../../API/LeaderBoard";
 
 const AddLeaderboard = () => {
     const [sportName, setSportName] = useState("");
@@ -24,14 +24,14 @@ const AddLeaderboard = () => {
 
     const handleSubmit = () =>{
         const reqBody = {
-            sportName,
+            sport: sportName,
             teamName,
             position,
             points
         }
-        createItinerary(reqBody).then((res)=>{
+        addLeaderboard(reqBody).then((res)=>{
             console.log(res)
-            toast.success("Itinerary has been created successfully")
+            toast.success("Leaderboard has been created successfully")
         }).catch((err)=>{
             toast.error("Some error occured");
         })
@@ -53,7 +53,11 @@ const AddLeaderboard = () => {
                             <option key={index}>{item.teamName}</option>
                         ))}
                     </select>
-                    <input className="form-control mb-3" placeholder="Position" onChange={(e)=>setPosition(e.target.value)}/>
+                    <select className="form-control mb-3" onChange={(e) => setPosition(e.target.value)}>
+                        <option>Select Position</option>
+                        <option value={"winner"}>Winner</option>
+                        <option value={"runner up"}>Runner up</option>
+                    </select>
                     <input className="form-control mb-3" placeholder="Points" onChange={(e)=>setPoints(e.target.value)}/>
                     {/* <select className="form-control mb-3" onChange={(e)=> setEventName(e.target.value)}>
                         <option disabled selected>Event</option>
