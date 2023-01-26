@@ -72,9 +72,11 @@ const EventDetail = () => {
 
   const handleAddScore = (index) => {
     //update event 
-    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+    if(eventDetail.status !== "active"){
+      updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
-    }).catch((err) => console.log(err));
+      }).catch((err) => console.log(err));
+    }
 
     const updatedPlayers = [...teamA];
     let score = updatedPlayers[index].score++;
@@ -97,9 +99,11 @@ const EventDetail = () => {
 
   const handleReduceScore = (index) => {
 
-    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+    if(eventDetail.status !== "active"){
+      updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
-    }).catch((err) => console.log(err));
+      }).catch((err) => console.log(err));
+    }
 
     const updatedPlayers = [...teamA];
     if (updatedPlayers[index].score >= 1) {
@@ -125,9 +129,11 @@ const EventDetail = () => {
 
   const handleAddScoreTeamB = (index) => {
 
-    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+    if(eventDetail.status !== "active"){
+      updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
-    }).catch((err) => console.log(err));
+      }).catch((err) => console.log(err));
+    }
 
     const updatedPlayers = [...teamB];
     let score = updatedPlayers[index].score++;
@@ -152,9 +158,11 @@ const EventDetail = () => {
 
   const handleReduceScoreTeamB = (index) => {
 
-    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+    if(eventDetail.status !== "active"){
+      updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
-    }).catch((err) => console.log(err));
+      }).catch((err) => console.log(err));
+    }
 
     const updatedPlayers = [...teamB];
     if (updatedPlayers[index].score >= 1) {
@@ -181,9 +189,11 @@ const EventDetail = () => {
 
   const handleAddScoreMultiPlayer = (index) => {
 
-    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+    if(eventDetail.status !== "active"){
+      updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
-    }).catch((err) => console.log(err));
+      }).catch((err) => console.log(err));
+    }
 
     const updatedPlayers = [...players];
     let score = updatedPlayers[index].score++;
@@ -208,9 +218,11 @@ const EventDetail = () => {
 
   const handleReduceScoreMultiPlayer = (index) => {
 
-    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+    if(eventDetail.status !== "active"){
+      updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
-    }).catch((err) => console.log(err));
+      }).catch((err) => console.log(err));
+    }
 
     const updatedPlayers = [...players];
     if (updatedPlayers[index].score >= 1) {
@@ -237,9 +249,11 @@ const EventDetail = () => {
 
   const handleReduceScorePlayerA = () => {
 
-    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+    if(eventDetail.status !== "active"){
+      updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
-    }).catch((err) => console.log(err));
+      }).catch((err) => console.log(err));
+    }
 
     const updatedPlayer = { ...playerA };
     if (updatedPlayer.score >= 1) {
@@ -267,9 +281,11 @@ const EventDetail = () => {
 
   const handleAddScorePlayerA = () => {
 
-    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+    if(eventDetail.status !== "active"){
+      updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
-    }).catch((err) => console.log(err));
+      }).catch((err) => console.log(err));
+    }
 
     const updatedPlayer = { ...playerA };
     let score = updatedPlayer.score++;
@@ -295,9 +311,11 @@ const EventDetail = () => {
 
   const handleReduceScorePlayerB = () => {
 
-    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+    if(eventDetail.status !== "active"){
+      updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
-    }).catch((err) => console.log(err));
+      }).catch((err) => console.log(err));
+    }
 
 
     const updatedPlayer = { ...playerB };
@@ -326,9 +344,11 @@ const EventDetail = () => {
 
   const handleAddScorePlayerB = () => {
 
-    updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
+    if(eventDetail.status !== "active"){
+      updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
-    }).catch((err) => console.log(err));
+      }).catch((err) => console.log(err));
+    }
 
     const updatedPlayer = { ...playerB };
     let score = updatedPlayer.score++;
@@ -365,9 +385,9 @@ const EventDetail = () => {
   }, []);
 
   const handleAddExtras = () => {
-    if(selectedTeam === ""){
+    if (selectedTeam === "") {
       toast.warn("please select a team by adding some score");
-    }else{
+    } else {
       getExtrasForTeam({ eventId: eventDetail._id, teamId: selectedTeam }).then((res) => {
         console.log(res);
         if (selectedTeam === eventDetail.teamName[0]._id) {
@@ -385,7 +405,7 @@ const EventDetail = () => {
           },
           teamId: selectedTeam,
         }
-  
+
         createAndUpdateScore(reqBody).then((res) => {
           console.log(res);
         }).catch((err) => {
@@ -467,8 +487,8 @@ const EventDetail = () => {
                           <img
                             src={eventDetail?.teamName[0]?.logo}
                             alt="TeamAlogo"
-                            width="40px"
-                            heigth="40px"
+                            width="1.875rem"
+                            heigth="1.875rem"
                           />
                           <p
                             style={{ marginLeft: "15px" }}
@@ -481,13 +501,13 @@ const EventDetail = () => {
                     ) : eventDetail.eventType === "Player" ? (
                       <div className="row">
                         <div className="col-5 d-flex">
-                          <img src={eventDetail.playerName[0]?.image} alt="Playerlogo" width="40px" heigth="40px" />
+                          <img src={eventDetail.playerName[0]?.image} alt="Playerlogo" style={{ width: '1.875rem', height: '1.875rem' }} />
                           <p style={{ marginLeft: '15px' }} className="pt-2 mb-0">{eventDetail.playerName[0]?.name}</p>
                         </div>
                         <div className="col-2 pt-2">VS</div>
                         <div className="col-5 d-flex float-right">
                           <p style={{ marginRight: '15px' }} className="pt-2 mb-0">{eventDetail.playerName[1]?.name}</p>
-                          <img src={eventDetail.playerName[1]?.image} alt="Playerlogo " width="40px" heigth="40px" />
+                          <img src={eventDetail.playerName[1]?.image} alt="Playerlogo " style={{ width: '1.875rem', height: '1.875rem' }} />
                         </div>
                       </div>
                     ) : (
@@ -496,8 +516,7 @@ const EventDetail = () => {
                           <img
                             src={eventDetail?.teamName[0]?.logo}
                             alt="TeamAlogo"
-                            width="40px"
-                            heigth="40px"
+                            style={{ width: '1.875rem', height: '1.875rem' }}
                           />
                           <p
                             style={{ marginLeft: "15px" }}
@@ -517,21 +536,20 @@ const EventDetail = () => {
                           <img
                             src={eventDetail?.teamName[1]?.logo}
                             alt="TeamBlogo"
-                            width="40px"
-                            heigth="40px"
+                            style={{ width: '1.875rem', height: '1.875rem' }}
                           />
                         </div>
                       </div>
                     )}
                   </div>
                   <p className="text-center mt-2 p-0">
-                    {eventDetail.date} || {eventDetail.time} ||{" "}
+                    {eventDetail.date} || {eventDetail.time} <br />
                     {eventDetail.venue}{" "}
                   </p>
                   <p className="mt-2">
                     Winner:{" "}
                     <span style={{ marginLeft: "35px" }}>
-                    {eventDetail.winner.length === 0
+                      {eventDetail.winner.length === 0
                         ? "TBA"
                         : eventDetail.winner[0].name != undefined ? eventDetail.winner[0].name : eventDetail.winner[0].teamName}
                     </span>
@@ -564,7 +582,7 @@ const EventDetail = () => {
                           <input
                             disabled
                             value={item.score}
-                            style={{ width: "25px" }}
+                            style={{ width: "25px", textAlign:'center' }}
                           />
                           <button
                             style={{
@@ -581,7 +599,7 @@ const EventDetail = () => {
                     ))
                   ) : eventDetail.eventType === "Team" && eventDetail.sportName === "Cricket" ? (
                     <>
-                      <p>Team A <span style={{ float: 'right' }}>Extras: {teamAExtras}</span></p>
+                      <p >Extras: {teamAExtras}</p>
                       {teamA.map((eventDetail, index) => (
                         <p key={index}>
                           {eventDetail.name}
@@ -599,7 +617,7 @@ const EventDetail = () => {
                             <input
                               disabled
                               value={eventDetail.score}
-                              style={{ width: "25px" }}
+                              style={{ width: "25px", textAlign:'center' }}
                             />
                             <button
                               style={{
@@ -614,7 +632,7 @@ const EventDetail = () => {
                           </span>
                         </p>
                       ))}
-                      <p>Team B <span style={{ float: 'right' }}>Extras: {teamBExtras}</span></p>
+                      <p > Extras: {teamBExtras} </p>
                       {teamB.map((eventDetail, index) => (
                         <p key={index}>
                           {eventDetail.name}
@@ -632,7 +650,7 @@ const EventDetail = () => {
                             <input
                               disabled
                               value={eventDetail.score}
-                              style={{ width: "25px" }}
+                              style={{ width: "25px", textAlign:'center' }}
                             />
                             <button
                               style={{
@@ -669,7 +687,7 @@ const EventDetail = () => {
                               <input
                                 disabled
                                 value={eventDetail.score}
-                                style={{ width: "25px" }}
+                                style={{ width: "25px", textAlign:'center' }}
                               />
                               <button
                                 style={{
@@ -702,7 +720,7 @@ const EventDetail = () => {
                               <input
                                 disabled
                                 value={eventDetail.score}
-                                style={{ width: "25px" }}
+                                style={{ width: "25px", textAlign:'center' }}
                               />
                               <button
                                 style={{
@@ -736,7 +754,7 @@ const EventDetail = () => {
                             <input
                               disabled
                               value={playerA.score}
-                              style={{ width: "25px" }}
+                              style={{ width: "25px",textAlign:'center' }}
                             />
                             <button
                               style={{
@@ -766,7 +784,7 @@ const EventDetail = () => {
                             <input
                               disabled
                               value={playerB.score}
-                              style={{ width: "25px" }}
+                              style={{ width: "25px",textAlign:'center' }}
                             />
                             <button
                               style={{
@@ -785,7 +803,7 @@ const EventDetail = () => {
                       ""
                     )}
                   {eventDetail.sportName === "Cricket" ? (
-                    <div className="container-fluid">
+                    <div className="container-fluid" style={{ paddingLeft: '0px' }}>
                       <div className="row">
                         <div className="col-6">
                           <button className="btn btn-dark w-100 mb-3" onClick={handleAddExtras}>
@@ -833,46 +851,6 @@ const EventDetail = () => {
                             End Event
                           </button>
                         </div>
-                        <div className="modal fade" id="closeEventModal" tabindex="-1" aria-labelledby="closeEventModalLabel" aria-hidden="true">
-                          <div className="modal-dialog">
-                            <div className="modal-content">
-                              <div className="modal-header">
-                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                              </div>
-                              <div className="modal-body">
-                                <p>Select Winner</p>
-                                {eventDetail.eventType === "Multiplayer"
-                                  ?
-                                  <select className="form-control" onChange={(e) => setWinner(e.target.value)}>
-                                    {players.map((item, index) => (
-                                      <option key={index} value={JSON.stringify(item)}>{item.name}</option>
-                                    ))}
-                                  </select>
-                                  :
-                                  eventDetail.eventType === "Player"
-                                    ?
-                                    <select className="form-control" onChange={(e) => setWinner(e.target.value)}>
-                                      <option value={JSON.stringify(playerA)}>{playerA.name}</option>
-                                      <option value={JSON.stringify(playerB)}>{playerB.name}</option>
-                                    </select>
-                                    :
-                                    eventDetail.eventType === "Team"
-                                      ?
-                                      <select className="form-control" onChange={(e) => setWinner(e.target.value)}>
-                                        <option selected>Select Winner</option>
-                                        <option value={JSON.stringify(eventDetail.teamName[0])} >{eventDetail.teamName[0].teamName}</option>
-                                        <option value={JSON.stringify(eventDetail.teamName[1])}>{eventDetail.teamName[1].teamName}</option>
-                                      </select>
-                                      :
-                                      ""
-                                }
-                              </div>
-                              <div className="modal-footer">
-                                <button type="button" className="btn btn-dark" data-bs-dismiss="modal" onClick={handleCloseEvent}>Close Event</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
                         {/* <div className="col-6">
                           <button className="btn btn-dark w-100 mb-3" onClick={handleAddExtras}>
                             Add 4 runs
@@ -889,6 +867,56 @@ const EventDetail = () => {
                     ""
                   )}
                 </div>
+
+                <div className="modal fade" id="closeEventModal" tabindex="-1" aria-labelledby="closeEventModalLabel" aria-hidden="true">
+                  <div className="modal-dialog">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div className="modal-body">
+                        <p>Select Winner</p>
+                        {eventDetail.eventType === "Multiplayer"
+                          ?
+                          <select className="form-control" onChange={(e) => setWinner(e.target.value)}>
+                            {players.map((item, index) => (
+                              <option key={index} value={JSON.stringify(item)}>{item.name}</option>
+                            ))}
+                          </select>
+                          :
+                          eventDetail.eventType === "Player"
+                            ?
+                            <select className="form-control" onChange={(e) => setWinner(e.target.value)}>
+                              <option value={JSON.stringify(playerA)}>{playerA.name}</option>
+                              <option value={JSON.stringify(playerB)}>{playerB.name}</option>
+                            </select>
+                            :
+                            eventDetail.eventType === "Team"
+                              ?
+                              <select className="form-control" onChange={(e) => setWinner(e.target.value)}>
+                                <option selected>Select Winner</option>
+                                <option value={JSON.stringify(eventDetail.teamName[0])} >{eventDetail.teamName[0].teamName}</option>
+                                <option value={JSON.stringify(eventDetail.teamName[1])}>{eventDetail.teamName[1].teamName}</option>
+                              </select>
+                              :
+                              ""
+                        }
+                      </div>
+                      <div className="modal-footer">
+                        <button type="button" className="btn btn-dark" data-bs-dismiss="modal" onClick={handleCloseEvent}>Close Event</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {eventDetail && eventDetail.sportName !== "Cricket"
+                  ?
+                  <div className="d-flex justify-content-center">
+                    <button onClick={handleWinner} className="btn btn-dark w-75 mb-3" data-bs-toggle="modal" data-bs-target="#closeEventModal">
+                      End Event
+                    </button>
+                  </div>
+                  :
+                  ""}
               </div>
             </>
           ) : (

@@ -34,7 +34,8 @@ const Events = () => {
                 events?.length > 0 ? events.map((item, index) => (
                     <div className="card mx-3 mt-3" key={index} onClick={() => navigate(`/event-detail/${item._id}`)} style={{ borderRadius: '20px', boxShadow: '0px 2px 4px 2px #eee' }}>
                         <div className="card-body">
-                            <div className="container-fluid">
+                            <p className="text-center h5">{item.eventName}</p>
+                            <div className="container-fluid" style={{paddingLeft:'0px'}}>
 
                                 {item.eventType === "MultiPlayer"
                                     ?
@@ -43,8 +44,7 @@ const Events = () => {
                                             <img
                                                 src={item.playerName[0]?.logo}
                                                 alt="TeamAlogo"
-                                                width="40px"
-                                                heigth="40px"
+                                                style={{width:'1.875rem', height:'1.875rem'}}
                                             />
                                             <p
                                                 style={{ marginLeft: "15px" }}
@@ -59,13 +59,13 @@ const Events = () => {
                                         ?
                                         <div className="row">
                                             <div className="col-5 d-flex">
-                                                <img src={item?.teamName[0]?.logo} alt="TeamALogo" width="40px" heigth="40px" />
+                                                <img src={item?.teamName[0]?.logo} alt="TeamALogo" style={{width:'1.875rem', height:'1.875rem'}} />
                                                 <p style={{ marginLeft: '15px' }} className="pt-2 mb-0">{item?.teamName[0]?.teamName}</p>
                                             </div>
                                             <div className="col-2 pt-2">VS</div>
                                             <div className="col-5 d-flex float-right">
                                                 <p style={{ marginRight: '15px' }} className="pt-2 mb-0">{item?.teamName[1]?.teamName}</p>
-                                                <img src={item?.teamName[1]?.logo} alt="TeamBLogo" width="40px" heigth="40px" />
+                                                <img src={item?.teamName[1]?.logo} alt="TeamBLogo" style={{width:'1.875rem', height:'1.875rem'}} />
                                             </div>
                                         </div>
                                         :
@@ -73,24 +73,23 @@ const Events = () => {
                                             ?
                                             <div className="row">
                                                 <div className="col-5 d-flex">
-                                                    <img src={item?.playerName[0]?.image} alt="Playerlogo" width="40px" heigth="40px" />
+                                                    <img src={item?.playerName[0]?.image} alt="Playerlogo" style={{width:'1.875rem', height:'1.875rem'}} />
                                                     <p style={{ marginLeft: '15px' }} className="pt-2 mb-0">{item?.playerName[0]?.name}</p>
                                                 </div>
                                                 <div className="col-2 pt-2">VS</div>
                                                 <div className="col-5 d-flex float-right">
                                                     <p style={{ marginRight: '15px' }} className="pt-2 mb-0">{item?.playerName[1]?.name}</p>
-                                                    <img src={item?.playerName[1]?.image} alt="Playerlogo " width="40px" heigth="40px" />
+                                                    <img src={item?.playerName[1]?.image} alt="Playerlogo " style={{width:'1.875rem', height:'1.875rem'}} />
                                                 </div>
                                             </div>
                                             :
                                             ""}
                             </div>
-                            <p className="text-center m-0 p-0">{item.date} || {item.time} || {item.venue} </p>
+                            <p className="text-center m-0 p-0">{item.date.split("-").reverse().join("-")} || {item.time} <br/> {item.venue} </p>
                         </div>
                     </div>
                 )) : <h3 className="text-center mt-4 pt-4">No Event Exist!</h3>
             }
-
             <Footer />
         </>
     )
