@@ -42,21 +42,20 @@ const EventDetail = () => {
             })
           );
         } else if (res.data.message[0].eventType === "Team") {
-          // get players for team A
-          res.data.message[0].teamName[0].player.map((item, index) => {
-            getPlayerByID(item).then((res) => {
-              res.data.message[0]["score"] = 0;
-              setTeamA((oldArr) => [...oldArr, res.data.message[0]]);
-            });
+          let playerA = [];
+          res.data.message[0].teamName[0].player.map((item) => {
+            playerA.push({ ...item, score: 0, isOut: false });
           });
+          console.log("Here is your profile", playerA);
+          setTeamA((oldArr) => [...oldArr, ...playerA]);
 
           // get players for team B
-          res.data.message[0].teamName[1].player.map((item, index) => {
-            getPlayerByID(item).then((res) => {
-              res.data.message[0]["score"] = 0;
-              setTeamB((oldArr) => [...oldArr, res.data.message[0]]);
-            });
+          let playerB = [];
+          res.data.message[0].teamName[1].player.map((item) => {
+            playerB.push({ ...item, score: 0, isOut: false });
           });
+          console.log("Here is your profile B", playerB);
+          setTeamB((oldArr) => [...oldArr, ...playerB]);
         } else if (res.data.message[0].eventType === "Player") {
           setPlayerA({ ...res.data.message[0].teamName[0], score: 0 });
           setPlayerB({ ...res.data.message[0].teamName[1], score: 0 });
@@ -69,6 +68,81 @@ const EventDetail = () => {
         setLoading(false);
       });
   }, []);
+
+
+  useEffect(() => {
+    if (eventDetail) {
+      if (eventDetail.eventType === "Team") {
+        getExtrasForTeam({ teamId: eventDetail.teamName[0]._id, eventId: id }).then((res) => {
+          let data = teamA.map(obj1 => {
+            const matchingObj = res.data.scores.find(obj2 => obj2.player === obj1._id);
+            if (matchingObj) {
+              return { ...obj1, score: matchingObj.score, isOut: matchingObj.isOut };
+            }
+            return obj1;
+          });
+          if (data.length > 0) {
+            setTeamA(data);
+          }
+        }).catch((err) => console.log(err));
+
+        getExtrasForTeam({ teamId: eventDetail.teamName[1]._id, eventId: id }).then((res) => {
+          let data = teamB.map(obj1 => {
+            const matchingObj = res.data.scores.find(obj2 => obj2.player === obj1._id);
+            if (matchingObj) {
+              return { ...obj1, score: matchingObj.score, isOut: matchingObj.isOut };
+            }
+            return obj1;
+          });
+          if (data.length > 0) {
+            setTeamB(data);
+          }
+        }).catch((err) => console.log(err));
+      }
+      else if (eventDetail.eventType === "MultiPlayer") {
+        if (players.length > 0 && eventDetail.playerName.length > 0) {
+          getExtrasForTeam({ teamId: eventDetail.playerName[0]._id, eventId: id }).then((res) => {
+            if (res.data.scores.length > 0) {
+              let data = players.map(obj1 => {
+                const matchingObj = res.data.scores.find(obj2 => obj2.player === obj1._id);
+                if (matchingObj) {
+                  return { ...obj1, score: matchingObj.score };
+                }
+                return obj1;
+              });
+              if (data.length > 0) {
+                setPlayers(data);
+              }
+            }
+          });
+        }
+      } else if (eventDetail.eventType === "Player") {
+        if (playerA && eventDetail.teamName.length > 0) {
+          getExtrasForTeam({ teamId: eventDetail.teamName[0]._id, eventId: id }).then((res) => {
+            if (res.data.scores.length > 0) {
+              const matchingObj = res.data.scores.find(obj2 => obj2.player === playerA._id);
+              let data = { ...playerA, score: matchingObj.score };
+              if (data.length > 0) {
+                setPlayerA(data);
+              }
+            }
+          });
+        }
+  
+        if (playerB && eventDetail.teamName.length > 1) {
+          getExtrasForTeam({ teamId: eventDetail.teamName[1]._id, eventId: id }).then((res) => {
+            if (res.data.scores.length > 0) {
+              const matchingObj = res.data.scores.find(obj2 => obj2.player === playerB._id);
+              let data = { ...playerB, score: matchingObj.score };
+              if (data.length > 0) {
+                setPlayerB(data);
+              }
+            }
+          });
+        }
+      }
+    }
+  }, [id, eventDetail]);
 
   const handleAddScore = (index) => {
     //update event 
@@ -143,7 +217,7 @@ const EventDetail = () => {
       eventId: eventDetail._id,
       gameType: eventDetail.eventType,
       playerId: updatedPlayers[index]._id,
-      teamId: eventDetail.teamName[0]._id,
+      teamId: eventDetail.teamName[1]._id,
       score: score + 1,
     };
 
@@ -173,7 +247,7 @@ const EventDetail = () => {
         eventId: eventDetail._id,
         gameType: eventDetail.eventType,
         playerId: updatedPlayers[index]._id,
-        teamId: eventDetail.teamName[0]._id,
+        teamId: eventDetail.teamName[1]._id,
         score: score - 1,
       };
 
@@ -479,7 +553,7 @@ const EventDetail = () => {
                   boxShadow: "0px 2px 4px 2px #eee",
                 }}
               >
-                <div className="card-body">
+                <div className="card-body" style={{padding: "0.5rem 0.5rem"}}>
                   <div className="container-fluid">
                     {eventDetail.eventType === "MultiPlayer" ? (
                       <div className="row">
@@ -563,7 +637,7 @@ const EventDetail = () => {
                   boxShadow: "0px 2px 4px 2px #eee",
                 }}
               >
-                <div className="card-body">
+                <div className="card-body" style={{padding: "0.5rem 0.5rem"}}>
                   {eventDetail.eventType === "MultiPlayer" ? (
                     players.map((item, index) => (
                       <p key={index}>

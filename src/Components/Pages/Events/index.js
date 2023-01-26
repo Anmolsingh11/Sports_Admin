@@ -33,7 +33,7 @@ const Events = () => {
                 :
                 events?.length > 0 ? events.map((item, index) => (
                     <div className="card mx-3 mt-3" key={index} onClick={() => navigate(`/event-detail/${item._id}`)} style={{ borderRadius: '20px', boxShadow: '0px 2px 4px 2px #eee' }}>
-                        <div className="card-body">
+                        <div className="card-body" style={{padding: "0.5rem 0.5rem"}}>
                             <p className="text-center h5">{item.eventName}</p>
                             <div className="container-fluid" style={{paddingLeft:'0px'}}>
 
