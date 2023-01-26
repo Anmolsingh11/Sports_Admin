@@ -10,6 +10,7 @@ import EventDetail from "./Components/Pages/EventDetail";
 import Itinerary from "./Components/Pages/Itinerary";
 import AddItinerary from "./Components/Pages/AddItinerary";
 import EditItinerary from "./Components/Pages/EditItinerary";
+import AddLeaderboard from "./Components/Pages/AddLeaderboard";
 function App() {
   return (
     <>
@@ -23,6 +24,7 @@ function App() {
       <Route exact path="/create-event" element={<CreateEvent/>}/>
       <Route exact path="/create-team" element={<CreateTeam/>}/>
       <Route exact path="/itinerary" element={<Itinerary/>}/>
+      <Route exact path="/add-leaderboard" element={<AddLeaderboard/>} />
       <Route exact path="/itinerary/update/:id" element={<EditItinerary/>}/>
       <Route exact path="/itinerary-add" element={<AddItinerary/>}/>
     </Routes>

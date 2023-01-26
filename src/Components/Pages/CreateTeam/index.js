@@ -92,12 +92,12 @@ const CreateTeam = () => {
                     Logo
                 </label>
                 <input id="file-upload" type="file" className="form-control box-shadow mb-3" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
-                <select className="form-control mb-3" onChange={handleChange}>
+                {/* <select className="form-control mb-3" onChange={handleChange}>
                     <option>Sports</option>
                     {sports.map((item, index) => (
                         <option key={index}>{item.name}</option>
                     ))}
-                </select>
+                </select> */}
 
                 <Multiselect
                     className="mb-3"

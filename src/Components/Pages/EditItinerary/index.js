@@ -70,12 +70,14 @@ const EditItinerary = () => {
                     <input className="form-control mb-3" value={date} type={"date"} onChange={(e) => setDate(e.target.value)}/>
                     <input className="form-control mb-3" value={time} type={"time"} onChange={(e) => setTime(e.target.value)}/>
                     <input className="form-control mb-3" value={venue} placeholder="Venue" onChange={(e)=>setVenue(e.target.value)}/>
-                    <select className="form-control mb-3" onChange={(e)=> setEventName(e.target.value)}>
+                    <input className="form-control mb-3" onChange={(e)=>setEventName(e.target.value)} />
+                    
+                    {/* <select className="form-control mb-3" onChange={(e)=> setEventName(e.target.value)}>
                         <option disabled selected>Event</option>
                         {events.map((item,index) => (
                             <option key={index} value={item._id} selected={eventName === item._id}>{item.eventName}</option>
                         ))}
-                    </select>
+                    </select> */}
                     <button className="btn btn-dark w-100" onClick={handleSubmit}>Update</button>
             </div>
             <Footer/>

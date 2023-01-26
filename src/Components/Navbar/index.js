@@ -26,6 +26,7 @@ const Navbar = () => {
                 <div className="mt-5 pt-5">
                     <Link to="/home" className="text-center">Home</Link>
                     <Link to="/itinerary" className="text-center">Itinerary</Link>
+                    <Link to="/add-leaderboard" className="text-center">leaderboard</Link>
                     <Link to="/create-event" className="text-center">Event</Link>
                     <Link to="/create-team" className="text-center">Team</Link>
                     <Link to="/create-player" className="text-center">Player</Link>
