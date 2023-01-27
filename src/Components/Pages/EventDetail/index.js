@@ -25,17 +25,24 @@ const EventDetail = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    if (eventDetail && eventDetail.teamName.length > 0) {
+      getExtrasForTeam({ teamId: eventDetail.teamName[0]._id, eventId: id }).then((res) => {
+        setTeamAExtras(res.data.scores[0].extras.count);
+      })
+
+      getExtrasForTeam({ teamId: eventDetail.teamName[1]._id, eventId: id }).then((res) => {
+        setTeamBExtras(res.data.scores[0].extras.count);
+      })
+    }
+  },[eventDetail]);
+
+
+  useEffect(() => {
     setLoading(true);
     getEventByID(id)
       .then((res) => {
         setEventDetail(res.data.message[0]);
         if (res.data.message[0].eventType === "MultiPlayer") {
-          console.log(
-            "here are your players",
-            res.data.message[0].playerName.map((item) => {
-              return { ...item, score: 0 };
-            })
-          );
           setPlayers(
             res.data.message[0].playerName.map((item) => {
               return { ...item, score: 0 };
@@ -46,7 +53,6 @@ const EventDetail = () => {
           res.data.message[0].teamName[0].player.map((item) => {
             playerA.push({ ...item, score: 0, isOut: false });
           });
-          console.log("Here is your profile", playerA);
           setTeamA((oldArr) => [...oldArr, ...playerA]);
 
           // get players for team B
@@ -54,7 +60,6 @@ const EventDetail = () => {
           res.data.message[0].teamName[1].player.map((item) => {
             playerB.push({ ...item, score: 0, isOut: false });
           });
-          console.log("Here is your profile B", playerB);
           setTeamB((oldArr) => [...oldArr, ...playerB]);
         } else if (res.data.message[0].eventType === "Player") {
           setPlayerA({ ...res.data.message[0].teamName[0], score: 0 });
@@ -128,7 +133,7 @@ const EventDetail = () => {
             }
           });
         }
-  
+
         if (playerB && eventDetail.teamName.length > 1) {
           getExtrasForTeam({ teamId: eventDetail.teamName[1]._id, eventId: id }).then((res) => {
             if (res.data.scores.length > 0) {
@@ -146,7 +151,7 @@ const EventDetail = () => {
 
   const handleAddScore = (index) => {
     //update event 
-    if(eventDetail.status !== "active"){
+    if (eventDetail.status !== "active") {
       updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
       }).catch((err) => console.log(err));
@@ -155,7 +160,6 @@ const EventDetail = () => {
     const updatedPlayers = [...teamA];
     let score = updatedPlayers[index].score++;
     setTeamA(updatedPlayers);
-    setSeletedTeam(eventDetail.teamName[0]._id);
     const reqBody = {
       eventId: eventDetail._id,
       gameType: eventDetail.eventType,
@@ -173,7 +177,7 @@ const EventDetail = () => {
 
   const handleReduceScore = (index) => {
 
-    if(eventDetail.status !== "active"){
+    if (eventDetail.status !== "active") {
       updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
       }).catch((err) => console.log(err));
@@ -183,7 +187,6 @@ const EventDetail = () => {
     if (updatedPlayers[index].score >= 1) {
       let score = updatedPlayers[index].score--;
       setTeamA(updatedPlayers);
-      setSeletedTeam(eventDetail.teamName[1]._id);
 
       const reqBody = {
         eventId: eventDetail._id,
@@ -203,7 +206,7 @@ const EventDetail = () => {
 
   const handleAddScoreTeamB = (index) => {
 
-    if(eventDetail.status !== "active"){
+    if (eventDetail.status !== "active") {
       updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
       }).catch((err) => console.log(err));
@@ -232,7 +235,7 @@ const EventDetail = () => {
 
   const handleReduceScoreTeamB = (index) => {
 
-    if(eventDetail.status !== "active"){
+    if (eventDetail.status !== "active") {
       updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
       }).catch((err) => console.log(err));
@@ -263,7 +266,7 @@ const EventDetail = () => {
 
   const handleAddScoreMultiPlayer = (index) => {
 
-    if(eventDetail.status !== "active"){
+    if (eventDetail.status !== "active") {
       updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
       }).catch((err) => console.log(err));
@@ -292,7 +295,7 @@ const EventDetail = () => {
 
   const handleReduceScoreMultiPlayer = (index) => {
 
-    if(eventDetail.status !== "active"){
+    if (eventDetail.status !== "active") {
       updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
       }).catch((err) => console.log(err));
@@ -323,7 +326,7 @@ const EventDetail = () => {
 
   const handleReduceScorePlayerA = () => {
 
-    if(eventDetail.status !== "active"){
+    if (eventDetail.status !== "active") {
       updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
       }).catch((err) => console.log(err));
@@ -355,7 +358,7 @@ const EventDetail = () => {
 
   const handleAddScorePlayerA = () => {
 
-    if(eventDetail.status !== "active"){
+    if (eventDetail.status !== "active") {
       updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
       }).catch((err) => console.log(err));
@@ -385,7 +388,7 @@ const EventDetail = () => {
 
   const handleReduceScorePlayerB = () => {
 
-    if(eventDetail.status !== "active"){
+    if (eventDetail.status !== "active") {
       updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
       }).catch((err) => console.log(err));
@@ -418,7 +421,7 @@ const EventDetail = () => {
 
   const handleAddScorePlayerB = () => {
 
-    if(eventDetail.status !== "active"){
+    if (eventDetail.status !== "active") {
       updateEventByID({ eventId: eventDetail._id, status: "active" }).then((res) => {
 
       }).catch((err) => console.log(err));
@@ -465,7 +468,6 @@ const EventDetail = () => {
       getExtrasForTeam({ eventId: eventDetail._id, teamId: selectedTeam }).then((res) => {
         console.log(res);
         if (selectedTeam === eventDetail.teamName[0]._id) {
-          console.log("yoo");
           setTeamAExtras(teamAExtras + 1);
         } else {
           setTeamBExtras(teamBExtras + 1);
@@ -536,6 +538,26 @@ const EventDetail = () => {
   return (
     <>
       <Navbar />
+      <div class="modal fade" id="addExtrasModal" tabindex="-1" aria-labelledby="addExtrasModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <select className="form-control" onChange={(e) => setSeletedTeam(e.target.value)}>
+                <option>Select Team</option>
+                {eventDetail && eventDetail.teamName.map((item, index) => (
+                  <option key={index} value={item._id}>{item.teamName}</option>
+                ))}
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" onClick={handleAddExtras} data-bs-dismiss="modal">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
       {loading ? (
         <div className="d-flex justify-content-center mt-5 pt-5">
           <div className="spinner-border" role="status">
@@ -553,7 +575,7 @@ const EventDetail = () => {
                   boxShadow: "0px 2px 4px 2px #eee",
                 }}
               >
-                <div className="card-body" style={{padding: "0.5rem 0.5rem"}}>
+                <div className="card-body" style={{ padding: "0.5rem 0.5rem" }}>
                   <div className="container-fluid">
                     {eventDetail.eventType === "MultiPlayer" ? (
                       <div className="row">
@@ -637,7 +659,7 @@ const EventDetail = () => {
                   boxShadow: "0px 2px 4px 2px #eee",
                 }}
               >
-                <div className="card-body" style={{padding: "0.5rem 0.5rem"}}>
+                <div className="card-body" style={{ padding: "0.5rem 0.5rem" }}>
                   {eventDetail.eventType === "MultiPlayer" ? (
                     players.map((item, index) => (
                       <p key={index}>
@@ -656,7 +678,7 @@ const EventDetail = () => {
                           <input
                             disabled
                             value={item.score}
-                            style={{ width: "25px", textAlign:'center' }}
+                            style={{ width: "25px", textAlign: 'center' }}
                           />
                           <button
                             style={{
@@ -691,7 +713,7 @@ const EventDetail = () => {
                             <input
                               disabled
                               value={eventDetail.score}
-                              style={{ width: "25px", textAlign:'center' }}
+                              style={{ width: "25px", textAlign: 'center' }}
                             />
                             <button
                               style={{
@@ -724,7 +746,7 @@ const EventDetail = () => {
                             <input
                               disabled
                               value={eventDetail.score}
-                              style={{ width: "25px", textAlign:'center' }}
+                              style={{ width: "25px", textAlign: 'center' }}
                             />
                             <button
                               style={{
@@ -761,7 +783,7 @@ const EventDetail = () => {
                               <input
                                 disabled
                                 value={eventDetail.score}
-                                style={{ width: "25px", textAlign:'center' }}
+                                style={{ width: "25px", textAlign: 'center' }}
                               />
                               <button
                                 style={{
@@ -794,7 +816,7 @@ const EventDetail = () => {
                               <input
                                 disabled
                                 value={eventDetail.score}
-                                style={{ width: "25px", textAlign:'center' }}
+                                style={{ width: "25px", textAlign: 'center' }}
                               />
                               <button
                                 style={{
@@ -828,7 +850,7 @@ const EventDetail = () => {
                             <input
                               disabled
                               value={playerA.score}
-                              style={{ width: "25px",textAlign:'center' }}
+                              style={{ width: "25px", textAlign: 'center' }}
                             />
                             <button
                               style={{
@@ -858,7 +880,7 @@ const EventDetail = () => {
                             <input
                               disabled
                               value={playerB.score}
-                              style={{ width: "25px",textAlign:'center' }}
+                              style={{ width: "25px", textAlign: 'center' }}
                             />
                             <button
                               style={{
@@ -880,12 +902,12 @@ const EventDetail = () => {
                     <div className="container-fluid" style={{ paddingLeft: '0px' }}>
                       <div className="row">
                         <div className="col-6">
-                          <button className="btn btn-dark w-100 mb-3" onClick={handleAddExtras}>
+                          <button className="btn btn-dark w-100 mb-3" data-bs-toggle="modal" data-bs-target="#addExtrasModal">
                             Add No Ball
                           </button>
                         </div>
                         <div className="col-6">
-                          <button className="btn btn-dark w-100 mb-3" onClick={handleAddExtras}>
+                          <button className="btn btn-dark w-100 mb-3" data-bs-toggle="modal" data-bs-target="#addExtrasModal">
                             Add wide ball
                           </button>
                         </div>
